@@ -10,7 +10,9 @@ RENAME_FILES = [
     ('src/lib/charm/openstack/cinder_STORAGE_NAME_LC.py',
      'src/lib/charm/openstack/cinder_{driver_name_lc}.py'),
     ('src/reactive/cinder_STORAGE_NAME_LC_handlers.py',
-     'src/reactive/cinder_{driver_name_lc}_handlers.py')]
+     'src/reactive/cinder_{driver_name_lc}_handlers.py'),
+    ('unit_tests/test_lib_charm_openstack_cinder_STORAGE_NAME_LC.py',
+     'unit_tests/test_lib_charm_openstack_cinder_{driver_name_lc}.py')]
 
 REMOVE_FILES = [
     'README.md']
@@ -41,9 +43,10 @@ def update_template(filename, ctxt):
         f.write(contents)
 
 def update_templates(ctxt):
-    for dname, dirs, files in os.walk("src"):
-        for fname in files:
-            update_template(os.path.join(dname, fname), ctxt)
+    for top_dir in ['src', 'unit_tests']:
+        for dname, dirs, files in os.walk(top_dir):
+            for fname in files:
+                update_template(os.path.join(dname, fname), ctxt)
 
 def remove_files():
     for f in REMOVE_FILES:

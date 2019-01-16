@@ -11,6 +11,8 @@ RENAME_FILES = [
      'src/lib/charm/openstack/cinder_{driver_name_lc}.py'),
     ('src/reactive/cinder_STORAGE_NAME_LC_handlers.py',
      'src/reactive/cinder_{driver_name_lc}_handlers.py'),
+    ('src/tests/tests_cinder_STORAGE_NAME_LC.py',
+     'src/tests/tests_cinder_{driver_name_lc}.py'),
     ('unit_tests/test_lib_charm_openstack_cinder_STORAGE_NAME_LC.py',
      'unit_tests/test_lib_charm_openstack_cinder_{driver_name_lc}.py'),
     ('target_tox.ini', 'tox.ini')]

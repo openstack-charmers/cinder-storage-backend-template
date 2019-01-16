@@ -1,0 +1,9 @@
+charm_name: cinder-${driver_name_lc}
+tests:
+  - tests.tests_cinder_${driver_name_lc}.Cinder${driver_name}Test
+configure:
+  - zaza.charm_tests.keystone.setup.add_demo_user
+gate_bundles:
+  - xenial-ocata
+smoke_bundles:
+  - xenial-ocata

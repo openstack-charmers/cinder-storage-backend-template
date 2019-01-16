@@ -50,6 +50,18 @@ Which will result in the following section being added to cinder.conf:
         password = password
         hostname = 10.5.0.13
 
+4) Update unit tests
+--------------------
+
+Edit unit\_tests/test\_lib\_charm\_openstack\_cinder\* and update unit
+tests.
+
+5) Update functional tests
+--------------------------
+
+Update the bundles in tests/bundles/\*yaml as needed and edit
+tests\/tests\_cinder\_\*py to add functional testing.
+
 TODO:
 -----
 - Add basic zaza tests

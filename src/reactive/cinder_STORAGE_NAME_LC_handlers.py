@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import charms_openstack.charm
+import charms.reactive
 
 # This charm's library contains all of the handler code associated with
 # this charm -- we need to import it to get the definitions for the charm.
@@ -25,3 +26,8 @@ charms_openstack.charm.use_defaults(
     'update-status',
     'storage-backend.connected',
 )
+
+@charms.reactive.when('config.changed.driver-source')
+def reinstall():
+    with charms_openstack.charm.provide_charm_instance() as charm:
+        charm.install()

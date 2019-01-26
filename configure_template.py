@@ -28,6 +28,7 @@ def get_context():
     ctxt['driver_name'] = input("What is the name of the storage driver (init capped)?\n")
     ctxt['release'] = input("What is the earliest openstack release supported by the charm?\n").lower()
     ctxt['package_name'] = input("What is the name of the package containing the storage driver?\n").lower()
+    ctxt['package3_name'] = input("What is the name of the py3 package containing the storage driver?\n").lower()
     ctxt['driver_name_lc'] = ctxt['driver_name'].lower()
     return ctxt
 

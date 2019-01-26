@@ -18,3 +18,10 @@ class Cinder${driver_name}Charm(
             # Add config options that needs setting on cinder.conf
         ]
         return driver_options
+
+class Cinder${driver_name}CharmRocky(Cinder${driver_name}Charm):
+
+    # Rocky needs py3 packages.
+    release = 'rocky'
+    version_package = '${package3_name}'
+    packages = [version_package]

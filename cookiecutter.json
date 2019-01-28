@@ -1,0 +1,7 @@
+{
+    "driver_name": "",
+    "driver_name_lc": "{{ cookiecutter.driver_name.lower() }}",
+    "release": "ocata",
+    "package_name": "python-cinder-{{ cookiecutter.driver_name_lc }}",
+    "package3_name": "{{ cookiecutter.package_name.replace('python', 'python3') }}"
+}

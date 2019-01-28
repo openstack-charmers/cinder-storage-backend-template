@@ -1,0 +1,9 @@
+charm_name: cinder-{{ cookiecutter.driver_name_lc }}
+tests:
+  - tests.tests_cinder_{{ cookiecutter.driver_name_lc }}.Cinder{{ cookiecutter.driver_name }}Test
+configure:
+  - zaza.charm_tests.keystone.setup.add_demo_user
+gate_bundles:
+  - xenial-{{ cookiecutter.release }}
+smoke_bundles:
+  - xenial-{{ cookiecutter.release }}

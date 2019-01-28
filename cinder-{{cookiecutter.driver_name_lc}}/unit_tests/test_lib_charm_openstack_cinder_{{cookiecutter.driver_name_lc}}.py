@@ -17,12 +17,12 @@ from __future__ import print_function
 
 import charmhelpers
 
-import charm.openstack.cinder_${driver_name_lc} as cinder_${driver_name_lc}
+import charm.openstack.cinder_{{ cookiecutter.driver_name_lc }} as cinder_{{ cookiecutter.driver_name_lc }}
 
 import charms_openstack.test_utils as test_utils
 
 
-class TestCinder${driver_name}Charm(test_utils.PatchHelper):
+class TestCinder{{ cookiecutter.driver_name }}Charm(test_utils.PatchHelper):
 
     def _patch_config_and_charm(self, config):
         self.patch_object(charmhelpers.core.hookenv, 'config')
@@ -33,14 +33,14 @@ class TestCinder${driver_name}Charm(test_utils.PatchHelper):
             return config
 
         self.config.side_effect = cf
-        c = cinder_${driver_name_lc}.Cinder${driver_name}Charm()
+        c = cinder_{{ cookiecutter.driver_name_lc }}.Cinder{{ cookiecutter.driver_name }}Charm()
         return c
 
     def test_cinder_base(self):
         charm = self._patch_config_and_charm({})
-        self.assertEqual(charm.name, 'cinder_${driver_name_lc}')
-        self.assertEqual(charm.version_package, '${package_name}')
-        self.assertEqual(charm.packages, ['${package_name}'])
+        self.assertEqual(charm.name, 'cinder_{{ cookiecutter.driver_name_lc }}')
+        self.assertEqual(charm.version_package, '{{ cookiecutter.package_name }}')
+        self.assertEqual(charm.packages, ['{{ cookiecutter.package_name }}'])
 
     def test_cinder_configuration(self):
         charm = self._patch_config_and_charm({'a': 'b'})

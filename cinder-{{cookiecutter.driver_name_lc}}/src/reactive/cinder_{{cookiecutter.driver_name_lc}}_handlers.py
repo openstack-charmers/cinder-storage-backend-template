@@ -17,7 +17,7 @@ import charms.reactive
 
 # This charm's library contains all of the handler code associated with
 # this charm -- we need to import it to get the definitions for the charm.
-import charm.openstack.cinder_${driver_name_lc}  # noqa
+import charm.openstack.cinder_{{ cookiecutter.driver_name_lc }}  # noqa
 
 # Run the default handler for install which will invoke the charm classes
 # 'install' method.

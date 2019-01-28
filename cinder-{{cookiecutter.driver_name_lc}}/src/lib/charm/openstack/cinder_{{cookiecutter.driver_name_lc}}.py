@@ -2,12 +2,12 @@ import charms_openstack.charm
 import charmhelpers.core.hookenv as ch_hookenv # noqa 
 
 
-class Cinder${driver_name}Charm(
+class Cinder{{ cookiecutter.driver_name }}Charm(
         charms_openstack.charm.CinderStoragePluginCharm):
 
-    name = 'cinder_${driver_name_lc}'
-    version_package = '${package_name}'
-    release = '${release}'
+    name = 'cinder_{{ cookiecutter.driver_name_lc }}'
+    version_package = '{{ cookiecutter.package_name }}'
+    release = '{{ cookiecutter.release }}'
     packages = [version_package]
     stateless = True
 
@@ -19,9 +19,9 @@ class Cinder${driver_name}Charm(
         ]
         return driver_options
 
-class Cinder${driver_name}CharmRocky(Cinder${driver_name}Charm):
+class Cinder{{ cookiecutter.driver_name }}CharmRocky(Cinder{{ cookiecutter.driver_name }}Charm):
 
     # Rocky needs py3 packages.
     release = 'rocky'
-    version_package = '${package3_name}'
+    version_package = '{{ cookiecutter.package3_name }}'
     packages = [version_package]

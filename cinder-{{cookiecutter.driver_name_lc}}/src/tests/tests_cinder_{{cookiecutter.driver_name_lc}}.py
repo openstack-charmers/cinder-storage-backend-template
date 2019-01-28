@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Encapsulate cinder-${driver_name_lc} testing."""
+"""Encapsulate cinder-{{ cookiecutter.driver_name_lc }} testing."""
 
 import logging
 
@@ -22,19 +22,19 @@ import zaza.model
 import zaza.charm_tests.test_utils as test_utils
 
 
-class Cinder${driver_name}Test(test_utils.OpenStackBaseTest):
-    """Encapsulate ${driver_name} tests."""
+class Cinder{{ cookiecutter.driver_name }}Test(test_utils.OpenStackBaseTest):
+    """Encapsulate {{ cookiecutter.driver_name }} tests."""
 
     @classmethod
     def setUpClass(cls):
         """Run class setup for running tests."""
-        super(Cinder${driver_name}Test, cls).setUpClass()
+        super(Cinder{{ cookiecutter.driver_name }}Test, cls).setUpClass()
 
-    def test_${driver_name_lc}(self):
+    def test_{{ cookiecutter.driver_name_lc }}(self):
         """foo."""
-        logging.info('${driver_name_lc}')
+        logging.info('{{ cookiecutter.driver_name_lc }}')
         expected_contents = {
-            'cinder-${driver_name_lc}': {
+            'cinder-{{ cookiecutter.driver_name_lc }}': {
                 'iscsi_helper': ['tgtadm'],
                 'volume_dd_blocksize': ['512']}}
 

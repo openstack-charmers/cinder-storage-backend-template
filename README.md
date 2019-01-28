@@ -1,16 +1,13 @@
 Using template to create a storage backend.
 ===========================================
 
-0) Clone template:
+1) Clone template:
 ------------------
 
-    git clone https://github.com/openstack-charmers/charm-cinder-storage-backend-template.git
-
-1) Run configure:
------------------
-
-    cd cinder-storage-backend-template
-    ./configure_template.py
+```
+sudo apt -y install cookiecutter
+cookiecutter https://github.com/openstack-charmers/cinder-storage-backend-template
+```
 
 2) Edit src/config.yaml
 -----------------------

@@ -1,10 +1,10 @@
-name: cinder-${driver_name_lc}
+name: cinder-{{ cookiecutter.driver_name_lc }}
 summary: ${driver_name} integration for OpenStack Block Storage
 maintainer: OpenStack Charmers <openstack-charmers@lists.ubuntu.com>
 description: |
  Cinder is the block storage service for the Openstack project.
  .
- This charm provides a ${driver_name} backend for Cinder
+ This charm provides a {{ cookiecutter.driver_name }} backend for Cinder
 tags:
   - openstack
   - storage

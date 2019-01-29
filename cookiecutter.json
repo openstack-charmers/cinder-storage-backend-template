@@ -3,5 +3,6 @@
     "driver_name_lc": "{{ cookiecutter.driver_name.lower() }}",
     "release": "ocata",
     "package_name": "python-cinder-{{ cookiecutter.driver_name_lc }}",
-    "package3_name": "{{ cookiecutter.package_name.replace('python', 'python3') }}"
+    "package3_name": "{{ cookiecutter.package_name.replace('python', 'python3') }}",
+    "driver_install_method": ["None", "PPA", "Juju Resource DEB"]
 }

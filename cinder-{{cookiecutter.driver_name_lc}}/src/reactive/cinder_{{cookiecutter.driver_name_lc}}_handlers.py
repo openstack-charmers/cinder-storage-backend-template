@@ -19,11 +19,10 @@ import charms.reactive
 # this charm -- we need to import it to get the definitions for the charm.
 import charm.openstack.cinder_{{ cookiecutter.driver_name_lc }}  # noqa
 
-# Run the default handler for install which will invoke the charm classes
-# 'install' method.
 charms_openstack.charm.use_defaults(
     'charm.installed',
     'update-status',
+    'upgrade-charm',
     'storage-backend.connected',
 )
 

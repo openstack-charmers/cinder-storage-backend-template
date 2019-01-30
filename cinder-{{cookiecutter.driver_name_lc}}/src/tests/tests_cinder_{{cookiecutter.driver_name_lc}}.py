@@ -29,9 +29,12 @@ class Cinder{{ cookiecutter.driver_name }}Test(test_utils.OpenStackBaseTest):
     def setUpClass(cls):
         """Run class setup for running tests."""
         super(Cinder{{ cookiecutter.driver_name }}Test, cls).setUpClass()
+        cls.keystone_session = openstack_utils.get_overcloud_keystone_session()
+        cls.model_name = zaza.model.get_juju_model()
+        cls.cinder_client = openstack_utils.get_cinder_session_client(
+            cls.keystone_session)
 
     def test_{{ cookiecutter.driver_name_lc }}(self):
-        """foo."""
         logging.info('{{ cookiecutter.driver_name_lc }}')
         expected_contents = {
             'cinder-{{ cookiecutter.driver_name_lc }}': {
@@ -48,3 +51,16 @@ class Cinder{{ cookiecutter.driver_name }}Test(test_utils.OpenStackBaseTest):
             expected_contents,
             model_name=self.model_name,
             timeout=2)
+
+    def test_create_volume(self):
+         test_vol_name = "zaza{}".format(uuid.uuid1().fields[0])
+         vol_new = self.cinder_client.volumes.create(
+             name=test_vol_name,
+             size=2)
+         openstack_utils.resource_reaches_status(
+             self.cinder_client.volumes,
+             vol_new.id,
+             expected_status='available')
+         test_vol = self.cinder_client.volumes.find(name=test_vol_name)
+         print(getattr(test_vol, 'os-vol-host-attr:host'))
+         self.cinder_client.volumes.delete(vol_new)

@@ -10,6 +10,8 @@ class Cinder{{ cookiecutter.driver_name }}Charm(
     release = '{{ cookiecutter.release }}'
     packages = [version_package]
     stateless = True
+    # Specify any config that the user *must* set.
+    mandatory_config = []
 
     def cinder_configuration(self):
         volume_driver = ''

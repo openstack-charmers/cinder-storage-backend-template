@@ -17,10 +17,11 @@
 """Encapsulate cinder-{{ cookiecutter.driver_name_lc }} testing."""
 
 import logging
+import uuid
 
 import zaza.model
 import zaza.charm_tests.test_utils as test_utils
-
+import zaza.utilities.openstack as openstack_utils
 
 class Cinder{{ cookiecutter.driver_name }}Test(test_utils.OpenStackBaseTest):
     """Encapsulate {{ cookiecutter.driver_name }} tests."""
@@ -34,7 +35,7 @@ class Cinder{{ cookiecutter.driver_name }}Test(test_utils.OpenStackBaseTest):
         cls.cinder_client = openstack_utils.get_cinder_session_client(
             cls.keystone_session)
 
-    def test_{{ cookiecutter.driver_name_lc }}(self):
+    def test_cinder_config(self):
         logging.info('{{ cookiecutter.driver_name_lc }}')
         expected_contents = {
             'cinder-{{ cookiecutter.driver_name_lc }}': {
@@ -62,5 +63,8 @@ class Cinder{{ cookiecutter.driver_name }}Test(test_utils.OpenStackBaseTest):
              vol_new.id,
              expected_status='available')
          test_vol = self.cinder_client.volumes.find(name=test_vol_name)
-         print(getattr(test_vol, 'os-vol-host-attr:host'))
+         self.assertEqual(
+             getattr(test_vol, 'os-vol-host-attr:host').split('#')[0],
+             'cinder@cinder-{{ cookiecutter.driver_name_lc }}')
          self.cinder_client.volumes.delete(vol_new)
+

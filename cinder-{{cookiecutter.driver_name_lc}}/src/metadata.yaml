@@ -1,5 +1,5 @@
 name: cinder-{{ cookiecutter.driver_name_lc }}
-summary: ${driver_name} integration for OpenStack Block Storage
+summary: {{ cookiecutter.driver_name }} integration for OpenStack Block Storage
 maintainer: OpenStack Charmers <openstack-charmers@lists.ubuntu.com>
 description: |
  Cinder is the block storage service for the Openstack project.

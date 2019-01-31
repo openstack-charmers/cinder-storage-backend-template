@@ -17,7 +17,7 @@ relations:
 - - cinder:amqp
   - rabbitmq-server:amqp
 - - cinder:storage-backend
-  - cinder-${driver_name_lc}:storage-backend
+  - cinder-{{ cookiecutter.driver_name_lc }}:storage-backend
 applications:
   mysql:
     charm: cs:~openstack-charmers-next/percona-cluster
@@ -38,9 +38,9 @@ applications:
       openstack-origin: cloud:xenial-ocata
     to:
     - '2'
-  cinder-${driver_name_lc}:
+  cinder-{{ cookiecutter.driver_name_lc }}:
     series: xenial
-    charm: cinder-${driver_name_lc}
+    charm: cinder-{{ cookiecutter.driver_name_lc }}
     options:
 # Add config options here
   rabbitmq-server:

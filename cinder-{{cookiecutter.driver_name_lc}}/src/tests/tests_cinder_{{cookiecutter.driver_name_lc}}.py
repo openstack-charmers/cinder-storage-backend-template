@@ -23,6 +23,7 @@ import zaza.model
 import zaza.charm_tests.test_utils as test_utils
 import zaza.utilities.openstack as openstack_utils
 
+
 class Cinder{{ cookiecutter.driver_name }}Test(test_utils.OpenStackBaseTest):
     """Encapsulate {{ cookiecutter.driver_name }} tests."""
 
@@ -54,17 +55,16 @@ class Cinder{{ cookiecutter.driver_name }}Test(test_utils.OpenStackBaseTest):
             timeout=2)
 
     def test_create_volume(self):
-         test_vol_name = "zaza{}".format(uuid.uuid1().fields[0])
-         vol_new = self.cinder_client.volumes.create(
-             name=test_vol_name,
-             size=2)
-         openstack_utils.resource_reaches_status(
-             self.cinder_client.volumes,
-             vol_new.id,
-             expected_status='available')
-         test_vol = self.cinder_client.volumes.find(name=test_vol_name)
-         self.assertEqual(
-             getattr(test_vol, 'os-vol-host-attr:host').split('#')[0],
-             'cinder@cinder-{{ cookiecutter.driver_name_lc }}')
-         self.cinder_client.volumes.delete(vol_new)
-
+        test_vol_name = "zaza{}".format(uuid.uuid1().fields[0])
+        vol_new = self.cinder_client.volumes.create(
+            name=test_vol_name,
+            size=2)
+        openstack_utils.resource_reaches_status(
+            self.cinder_client.volumes,
+            vol_new.id,
+            expected_status='available')
+        test_vol = self.cinder_client.volumes.find(name=test_vol_name)
+        self.assertEqual(
+            getattr(test_vol, 'os-vol-host-attr:host').split('#')[0],
+            'cinder@cinder-{{ cookiecutter.driver_name_lc }}')
+        self.cinder_client.volumes.delete(vol_new)

@@ -44,6 +44,6 @@ class TestCinder{{ cookiecutter.driver_name }}Charm(test_utils.PatchHelper):
 
     def test_cinder_configuration(self):
         charm = self._patch_config_and_charm({'a': 'b'})
-        config = charm.cinder_configuration() # noqa
+        config = charm.cinder_configuration()  # noqa
         # Add check here that configuration is as expected.
         # self.assertEqual(config, {})

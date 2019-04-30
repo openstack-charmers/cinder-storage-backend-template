@@ -1,7 +1,8 @@
 import charms_openstack.charm
-import charmhelpers.core.hookenv as ch_hookenv # noqa 
+import charmhelpers.core.hookenv as ch_hookenv  # noqa
 
 charms_openstack.charm.use_defaults('charm.default-select-release')
+
 
 class Cinder{{ cookiecutter.driver_name }}Charm(
         charms_openstack.charm.CinderStoragePluginCharm):
@@ -21,6 +22,7 @@ class Cinder{{ cookiecutter.driver_name }}Charm(
             # Add config options that needs setting on cinder.conf
         ]
         return driver_options
+
 
 class Cinder{{ cookiecutter.driver_name }}CharmRocky(Cinder{{ cookiecutter.driver_name }}Charm):
 

@@ -6,3 +6,7 @@ config:
       - use-syslog
       - use-internal-endpoints
       - ssl_ca
+options:
+  basic:
+    use_venv: True
+repo: https://github.com/openstack-charmers/cinder-storage-backend-template

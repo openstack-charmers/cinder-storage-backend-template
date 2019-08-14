@@ -21,7 +21,7 @@ import uuid
 
 import zaza.model
 import zaza.openstack.charm_tests.test_utils as test_utils
-import zaza.utilities.openstack as openstack_utils
+import zaza.openstack.utilities.openstack as openstack_utils
 
 
 class Cinder{{ cookiecutter.driver_name }}Test(test_utils.OpenStackBaseTest):

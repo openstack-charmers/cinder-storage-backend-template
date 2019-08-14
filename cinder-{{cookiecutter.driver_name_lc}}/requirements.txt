@@ -1,5 +1,5 @@
 # This file is managed centrally.  If you find the need to modify this as a
-# one-off, please don't.  Instead, consult #openstack-charms and ask about
+# one-off, please don't.  Intead, consult #openstack-charms and ask about
 # requirements management in charms via bot-control.  Thank you.
 #
 # Build requirements

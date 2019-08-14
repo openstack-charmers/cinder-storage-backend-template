@@ -22,7 +22,7 @@ cookiecutter https://github.com/openstack-charmers/cinder-storage-backend-templa
 3) Update 'cinder\_configuration' in src/lib/charm/openstack/cinder_*
 --------------------------------------------------------------------
 
-The 'cinderr\_configuration' method controls configuration options are sent to
+The 'cinder\_configuration' method controls configuration options are sent to
 the principle cinder charm for inclusion in cinder.conf. For example:
 
 If a 'superarray' driver was being configured in step 3 and

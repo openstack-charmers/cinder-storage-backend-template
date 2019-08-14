@@ -20,7 +20,7 @@ import logging
 import uuid
 
 import zaza.model
-import zaza.charm_tests.test_utils as test_utils
+import zaza.openstack.charm_tests.test_utils as test_utils
 import zaza.utilities.openstack as openstack_utils
 
 

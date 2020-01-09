@@ -28,14 +28,14 @@ applications:
     charm: cs:~openstack-charmers-next/keystone
     num_units: 1
     options:
-      openstack-origin: cloud:xenial-ocata
+      openstack-origin: cloud:xenial-{{ cookiecutter.release }}
     to:
     - '1'
   cinder:
     charm: cs:~openstack-charmers-next/cinder
     num_units: 1
     options:
-      openstack-origin: cloud:xenial-ocata
+      openstack-origin: cloud:xenial-{{ cookiecutter.release }}
     to:
     - '2'
   cinder-{{ cookiecutter.driver_name_lc }}:

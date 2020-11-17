@@ -11,6 +11,7 @@ class Cinder{{ cookiecutter.driver_name }}Charm(
     version_package = '{{ cookiecutter.package_name }}'
     release = '{{ cookiecutter.release }}'
     packages = [version_package]
+    release_pkg = version_package
     stateless = True
     # Specify any config that the user *must* set.
     mandatory_config = []

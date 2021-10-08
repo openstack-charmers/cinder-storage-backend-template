@@ -7,12 +7,24 @@ charms_openstack.charm.use_defaults('charm.default-select-release')
 class Cinder{{ cookiecutter.driver_name }}Charm(
         charms_openstack.charm.CinderStoragePluginCharm):
 
+    # The name of the charm
     name = 'cinder_{{ cookiecutter.driver_name_lc }}'
-    version_package = '{{ cookiecutter.package_name }}'
+
+    # Package to determine application version. Use "cinder-common" when
+    # the driver is in-tree of Cinder upstream.
+    version_package = '{{ cookiecutter.additional_package_name|default("cinder-common", true) }}'
+
+    # Package to determine OpenStack release name
+    release_pkg = 'cinder-common'
+
+    # this is the first release in which this charm works
     release = '{{ cookiecutter.release }}'
-    packages = [version_package]
-    release_pkg = version_package
+
+    # List of packages to install
+    packages = ['{{ cookiecutter.additional_package_name }}']
+
     stateless = True
+
     # Specify any config that the user *must* set.
     mandatory_config = []
 
@@ -23,11 +35,3 @@ class Cinder{{ cookiecutter.driver_name }}Charm(
             # Add config options that needs setting on cinder.conf
         ]
         return driver_options
-
-
-class Cinder{{ cookiecutter.driver_name }}CharmRocky(Cinder{{ cookiecutter.driver_name }}Charm):
-
-    # Rocky needs py3 packages.
-    release = 'rocky'
-    version_package = '{{ cookiecutter.package3_name }}'
-    packages = [version_package]

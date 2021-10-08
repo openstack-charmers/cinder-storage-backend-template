@@ -39,8 +39,8 @@ class TestCinder{{ cookiecutter.driver_name }}Charm(test_utils.PatchHelper):
     def test_cinder_base(self):
         charm = self._patch_config_and_charm({})
         self.assertEqual(charm.name, 'cinder_{{ cookiecutter.driver_name_lc }}')
-        self.assertEqual(charm.version_package, '{{ cookiecutter.package_name }}')
-        self.assertEqual(charm.packages, ['{{ cookiecutter.package_name }}'])
+        self.assertEqual(charm.version_package, '{{ cookiecutter.additional_package_name|default("cinder-common", true) }}')
+        self.assertEqual(charm.packages, ['{{ cookiecutter.additional_package_name }}'])
 
     def test_cinder_configuration(self):
         charm = self._patch_config_and_charm({'a': 'b'})

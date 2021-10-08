@@ -5,8 +5,10 @@ Using template to create a storage backend.
 ------------------
 
 ```
-sudo apt -y install cookiecutter
-cookiecutter https://github.com/openstack-charmers/cinder-storage-backend-template
+python3 -m venv venv
+venv/bin/pip3 install cookiecutter
+
+venv/bin/cookiecutter https://github.com/openstack-charmers/cinder-storage-backend-template
 ```
 
 2) Edit src/config.yaml

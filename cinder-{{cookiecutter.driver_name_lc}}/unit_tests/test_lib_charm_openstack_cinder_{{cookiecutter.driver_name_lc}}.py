@@ -39,10 +39,70 @@ class TestCinder{{ cookiecutter.driver_name }}Charm(test_utils.PatchHelper):
         charm = self._patch_config_and_charm({})
         self.assertEqual(charm.name, "cinder_{{ cookiecutter.driver_name_lc }}")
         self.assertEqual(charm.version_package, "{{ cookiecutter.additional_package_name|default("cinder-common", true) }}")
-        self.assertEqual(charm.packages, ["{{ cookiecutter.additional_package_name }}"])
+        self.assertEqual(charm.packages, ["{{ cookiecutter.additional_package_name }}", "multipath-tools", "sysfsutils"])
 
     def test_cinder_configuration(self):
-        charm = self._patch_config_and_charm({"a": "b"})
-        config = charm.cinder_configuration()  # noqa
+        charm = self._patch_config_and_charm(
+            {
+                "volume-backend-name": "my_backend_name",
+                "protocol": "iscsi",
+                # more options to test
+            }
+        )
+        config = charm.cinder_configuration()
         # Add check here that configuration is as expected.
-        # self.assertEqual(config, {})
+        self.assertEqual(
+            config,
+            [
+                ("volume_backend_name", "my_backend_name"),
+                ("volume_driver", ""),
+            ],
+        )
+
+    def test_cinder_configuration_missing_mandatory_config(self):
+        self.patch_object(charmhelpers.core.hookenv, "service_name")
+        self.service_name.return_value = "cinder-myapp-name"
+        charm = self._patch_config_and_charm(
+            {
+                "protocol": None,
+            }
+        )
+        config = charm.cinder_configuration()
+        self.assertEqual(config, [])
+
+    def test_cinder_configuration_no_explicit_backend_name(self):
+        self.patch_object(charmhelpers.core.hookenv, "service_name")
+        self.service_name.return_value = "cinder-myapp-name"
+        charm = self._patch_config_and_charm(
+            {
+                "protocol": "iscsi",
+                "volume-backend-name": None,
+            }
+        )
+        config = charm.cinder_configuration()
+        self.assertEqual(
+            config,
+            [
+                ("volume_backend_name", "cinder-myapp-name"),
+                ("volume_driver", ""),
+            ],
+        )
+
+    def test_cinder_configuration_use_multipath(self):
+        charm = self._patch_config_and_charm(
+            {
+                "volume-backend-name": "my_backend_name",
+                "use-multipath": True,
+                "protocol": "iscsi",
+            }
+        )
+        config = charm.cinder_configuration()
+        self.assertEqual(
+            config,
+            [
+                ("volume_backend_name", "my_backend_name"),
+                ("volume_driver", ""),
+                ("use_multipath_for_image_xfer", True),
+                ("enforce_multipath_for_image_xfer", True),
+            ],
+        )

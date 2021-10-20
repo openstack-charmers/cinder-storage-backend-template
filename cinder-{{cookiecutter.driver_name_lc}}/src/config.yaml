@@ -1,4 +1,22 @@
 options:
+  volume-backend-name:
+    type: string
+    default:
+    description: |
+      Volume backend name for the backend. The default value is the
+      application name in the Juju model.
+  use-multipath:
+    type: boolean
+    default: True
+    description: |
+      Whether to use a multipath connection for iSCSI or FC in Cinder
+      volume service. Enabling multipath for VMs is managed by the
+      "use-multipath" option in the nova-compute charm.
+  protocol:
+    type: string
+    default:
+    description: |
+      SAN protocol to use. Choose between iscsi or fc.
 {%- if cookiecutter.driver_install_method == 'PPA' %}
   driver-source:
     type: string

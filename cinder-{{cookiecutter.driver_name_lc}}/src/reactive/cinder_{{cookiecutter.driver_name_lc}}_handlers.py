@@ -24,6 +24,7 @@ charms_openstack.bus.discover()
 
 charms_openstack.charm.use_defaults(
     "charm.installed",
+    "config.changed",
     "update-status",
     "upgrade-charm",
     "storage-backend.connected",

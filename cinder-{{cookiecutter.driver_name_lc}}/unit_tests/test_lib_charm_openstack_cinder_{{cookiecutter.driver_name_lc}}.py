@@ -23,9 +23,8 @@ import charms_openstack.test_utils as test_utils
 
 
 class TestCinder{{ cookiecutter.driver_name }}Charm(test_utils.PatchHelper):
-
     def _patch_config_and_charm(self, config):
-        self.patch_object(charmhelpers.core.hookenv, 'config')
+        self.patch_object(charmhelpers.core.hookenv, "config")
 
         def cf(key=None):
             if key is not None:
@@ -38,12 +37,12 @@ class TestCinder{{ cookiecutter.driver_name }}Charm(test_utils.PatchHelper):
 
     def test_cinder_base(self):
         charm = self._patch_config_and_charm({})
-        self.assertEqual(charm.name, 'cinder_{{ cookiecutter.driver_name_lc }}')
-        self.assertEqual(charm.version_package, '{{ cookiecutter.additional_package_name|default("cinder-common", true) }}')
-        self.assertEqual(charm.packages, ['{{ cookiecutter.additional_package_name }}'])
+        self.assertEqual(charm.name, "cinder_{{ cookiecutter.driver_name_lc }}")
+        self.assertEqual(charm.version_package, "{{ cookiecutter.additional_package_name|default("cinder-common", true) }}")
+        self.assertEqual(charm.packages, ["{{ cookiecutter.additional_package_name }}"])
 
     def test_cinder_configuration(self):
-        charm = self._patch_config_and_charm({'a': 'b'})
+        charm = self._patch_config_and_charm({"a": "b"})
         config = charm.cinder_configuration()  # noqa
         # Add check here that configuration is as expected.
         # self.assertEqual(config, {})

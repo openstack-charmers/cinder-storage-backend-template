@@ -33,12 +33,12 @@ options were added to config.yaml and the array needs driver XXX then
 'cinder\_configuration' might look like:
 
     def cinder_configuration(self):
-        volume_driver = 'cinder.volume.drivers.ARRAYVENDOR.iscsi.ARRAYISCSIDriver'
+        volume_driver = "cinder.volume.drivers.ARRAYVENDOR.iscsi.ARRAYISCSIDriver"
         driver_options = [
-            ('volume_driver', volume_driver),
-            ('username', self.config.get('superarray-username')),
-            ('password', self.config.get('superarray-password')),
-            ('hostname', self.config.get('superarray-hostname'))]
+            ("volume_driver", volume_driver),
+            ("username", self.config.get("superarray-username")),
+            ("password", self.config.get("superarray-password")),
+            ("hostname", self.config.get("superarray-hostname"))]
         return driver_options
  
 Which will result in the following section being added to cinder.conf:

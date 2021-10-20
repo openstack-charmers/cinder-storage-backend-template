@@ -19,17 +19,18 @@ import charms.reactive
 # this charm -- we will use the auto-discovery feature of charms.openstack
 # to get the definitions for the charm.
 import charms_openstack.bus
+
 charms_openstack.bus.discover()
 
 charms_openstack.charm.use_defaults(
-    'charm.installed',
-    'update-status',
-    'upgrade-charm',
-    'storage-backend.connected',
+    "charm.installed",
+    "update-status",
+    "upgrade-charm",
+    "storage-backend.connected",
 )
 
 
-@charms.reactive.when('config.changed.driver-source')
+@charms.reactive.when("config.changed.driver-source")
 def reinstall():
     with charms_openstack.charm.provide_charm_instance() as charm:
         charm.install()

@@ -1,37 +1,53 @@
-import charms_openstack.charm
-import charmhelpers.core.hookenv as ch_hookenv  # noqa
+import json
 
-charms_openstack.charm.use_defaults('charm.default-select-release')
+from ops.charm import CharmBase
 
 
-class Cinder{{ cookiecutter.driver_name }}Charm(
-        charms_openstack.charm.CinderStoragePluginCharm):
+class Cinder{{ cookiecutter.driver_name }}Charm(CharmBase):
 
-    # The name of the charm
-    name = 'cinder_{{ cookiecutter.driver_name_lc }}'
+    _stored = StoredState()
 
-    # Package to determine application version. Use "cinder-common" when
-    # the driver is in-tree of Cinder upstream.
-    version_package = '{{ cookiecutter.additional_package_name|default("cinder-common", true) }}'
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.framework.observe(self.on.install, self._on_install)
+        self.framework.observe(self.on.config_changed, self._on_config)
+        self.framework.observe(
+            self.on.storage_backend_relation_joined,
+            self._on_storage_backend)
+        self.framework.observer(
+            self.on.storage_backend_relation_changed,
+            self._on_storage_backend)
 
-    # Package to determine OpenStack release name
-    release_pkg = 'cinder-common'
+    def _on_install(self, _):
+        self.unit.status = ActiveStatus('Unit is ready')
 
-    # this is the first release in which this charm works
-    release = '{{ cookiecutter.release }}'
-
-    # List of packages to install
-    packages = ['{{ cookiecutter.additional_package_name }}']
-
-    stateless = True
-
-    # Specify any config that the user *must* set.
-    mandatory_config = []
-
-    def cinder_configuration(self):
+    def _render_config(self, config, app_name):
         volume_driver = ''
-        driver_options = [
-            ('volume_driver', volume_driver),
-            # Add config options that needs setting on cinder.conf
+        options = [
+            ('volume_driver', volume_driver)
         ]
-        return driver_options
+        return json.dumps({
+            "cinder": {
+                "/etc/cinder/cinder.confg": {
+                    "sections": {app_name: options}
+                }
+            }
+        })
+
+    def _set_data(self, data, config, app_name):
+        data['backend-name'] = config['volume-backend-name'] or app_name
+        data['subordinate_configuration'] = self._render_config(
+            config, app_name)
+
+    def _on_config(self, event):
+        config = dict(self.framework.model.config)
+        rel = self.framework.model.relations.get('storage-backend')[0]
+        app_name = self.framework.model.app.name
+        for unit in self.framework.model.get_relation('storage-backend').units:
+            self._set_data(rel.data[self.unit], config, app_name)
+
+    def _on_storage_backend(self, event):
+        self._set_data(
+            event.relation.data[self.unit],
+            self.framework.model.config,
+            self.framework.model.app.name)

@@ -12,38 +12,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from __future__ import absolute_import
-from __future__ import print_function
+import unittest
+from unittest.mock import Mock
+from src.charm import CinderMyDriverCharm
+from ops.model import ActiveStatus
+from ops.testing import Harness
 
-import charmhelpers
+class TestCinderMyDriverCharm(unittest.TestCase):
 
-import charm.openstack.cinder_{{ cookiecutter.driver_name_lc }} as cinder_{{ cookiecutter.driver_name_lc }}
-
-import charms_openstack.test_utils as test_utils
-
-
-class TestCinder{{ cookiecutter.driver_name }}Charm(test_utils.PatchHelper):
-
-    def _patch_config_and_charm(self, config):
-        self.patch_object(charmhelpers.core.hookenv, 'config')
-
-        def cf(key=None):
-            if key is not None:
-                return config[key]
-            return config
-
-        self.config.side_effect = cf
-        c = cinder_{{ cookiecutter.driver_name_lc }}.Cinder{{ cookiecutter.driver_name }}Charm()
-        return c
+    def setUp(self):
+        self.harness = Harness(CinderMyDriverCharm)
+        self.addCleanup(self.harness.cleanup)
+        self.harness.begin()
 
     def test_cinder_base(self):
-        charm = self._patch_config_and_charm({})
-        self.assertEqual(charm.name, 'cinder_{{ cookiecutter.driver_name_lc }}')
-        self.assertEqual(charm.version_package, '{{ cookiecutter.additional_package_name|default("cinder-common", true) }}')
-        self.assertEqual(charm.packages, ['{{ cookiecutter.additional_package_name }}'])
+        self.assertEqual(
+            self.harness.framework.model.app.name, 'cinder-mydriver')
+        # Test that charm is active upon installation.
+        self.harness.charm.on.install.emit()
+        self.assertTrue(isinstance(
+            self.harness.model.unit.status, ActiveStatus))
 
     def test_cinder_configuration(self):
-        charm = self._patch_config_and_charm({'a': 'b'})
-        config = charm.cinder_configuration()  # noqa
         # Add check here that configuration is as expected.
-        # self.assertEqual(config, {})
+        pass

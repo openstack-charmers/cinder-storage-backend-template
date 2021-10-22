@@ -12,6 +12,7 @@ setuptools<50.0.0  # https://github.com/pypa/setuptools/commit/04e3df22df840c6bb
 charm-tools==2.8.3
 
 simplejson
+ops
 
 # Newer versions use keywords that didn't exist in python 3.5 yet (e.g.
 # "ModuleNotFoundError")

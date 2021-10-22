@@ -1,6 +1,9 @@
 import json
 
 from ops.charm import CharmBase
+from ops.framework import StoredState
+from ops.main import main
+from ops.model import ActiveStatus
 
 
 class Cinder{{ cookiecutter.driver_name }}Charm(CharmBase):
@@ -24,7 +27,7 @@ class Cinder{{ cookiecutter.driver_name }}Charm(CharmBase):
     def _render_config(self, config, app_name):
         volume_driver = ''
         options = [
-            ('volume_driver', volume_driver)
+            ('volume_driver', volume_driver),
         ]
         return json.dumps({
             "cinder": {
@@ -51,3 +54,7 @@ class Cinder{{ cookiecutter.driver_name }}Charm(CharmBase):
             event.relation.data[self.unit],
             self.framework.model.config,
             self.framework.model.app.name)
+
+
+if __name__ == '__main__':
+    main(Cinder{{ cookiecutter.driver_name }}Charm)

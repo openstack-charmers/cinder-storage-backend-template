@@ -1,3 +1,20 @@
+#! /usr/bin/env python3
+
+# Copyright 2021 Canonical Ltd
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#  http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
 import json
 
 from ops.charm import CharmBase
@@ -12,6 +29,12 @@ class Cinder{{ cookiecutter.driver_name }}Charm(CharmBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        # We listen to the following events:
+        # - Installation: Just to set the charm status
+        # - Configuration changes: Rewrite the cinder.conf file and inform
+        #   other charms of the changes
+        # - Backend storage join/change: Inform the other charm of what the
+        #   configuration is and the backend name.
         self.framework.observe(self.on.install, self._on_install)
         self.framework.observe(self.on.config_changed, self._on_config)
         self.framework.observe(
@@ -22,9 +45,11 @@ class Cinder{{ cookiecutter.driver_name }}Charm(CharmBase):
             self._on_storage_backend)
 
     def _on_install(self, _):
+        # If additional packages are to be installed, code should go here.
         self.unit.status = ActiveStatus('Unit is ready')
 
     def _render_config(self, config, app_name):
+        # Generate the JSON with the updated configuration.
         volume_driver = ''
         options = [
             ('volume_driver', volume_driver),
@@ -38,6 +63,7 @@ class Cinder{{ cookiecutter.driver_name }}Charm(CharmBase):
         })
 
     def _set_data(self, data, config, app_name):
+        # Inform another charm of the backend name and our configuration.
         data['backend-name'] = config['volume-backend-name'] or app_name
         data['subordinate_configuration'] = self._render_config(
             config, app_name)

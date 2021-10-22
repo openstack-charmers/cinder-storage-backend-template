@@ -18,16 +18,17 @@ from src.charm import CinderMyDriverCharm
 from ops.model import ActiveStatus
 from ops.testing import Harness
 
-class TestCinderMyDriverCharm(unittest.TestCase):
+class TestCinder{{ cookiecutter.driver_name }}Charm(unittest.TestCase):
 
     def setUp(self):
-        self.harness = Harness(CinderMyDriverCharm)
+        self.harness = Harness(Cinder{{ cookiecutter.driver_name }}Charm)
         self.addCleanup(self.harness.cleanup)
         self.harness.begin()
 
     def test_cinder_base(self):
         self.assertEqual(
-            self.harness.framework.model.app.name, 'cinder-mydriver')
+            self.harness.framework.model.app.name,
+            'cinder-{{ cookiecutter.driver_name_lc' }})
         # Test that charm is active upon installation.
         self.harness.charm.on.install.emit()
         self.assertTrue(isinstance(

@@ -28,7 +28,7 @@ class TestCinder{{ cookiecutter.driver_name }}Charm(unittest.TestCase):
     def test_cinder_base(self):
         self.assertEqual(
             self.harness.framework.model.app.name,
-            'cinder-{{ cookiecutter.driver_name_lc' }})
+            'cinder-{{ cookiecutter.driver_name_lc }}')
         # Test that charm is active upon installation.
         self.harness.charm.on.install.emit()
         self.assertTrue(isinstance(

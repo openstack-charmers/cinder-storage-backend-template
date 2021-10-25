@@ -40,7 +40,7 @@ class Cinder{{ cookiecutter.driver_name }}Charm(CharmBase):
         self.framework.observe(
             self.on.storage_backend_relation_joined,
             self._on_storage_backend)
-        self.framework.observer(
+        self.framework.observe(
             self.on.storage_backend_relation_changed,
             self._on_storage_backend)
 

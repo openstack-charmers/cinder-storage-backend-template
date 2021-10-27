@@ -1,7 +1,7 @@
 {
     "driver_name": "MyDriver",
     "driver_name_lc": "{{ cookiecutter.driver_name.lower() }}",
-    "release": "ussuri",
+    "release": "queens",
     "additional_package_name": "",
     "driver_install_method": ["None", "PPA", "Juju Resource DEB"]
 }

@@ -13,7 +13,7 @@
 # limitations under the License.
 
 import unittest
-from src.charm import CinderMyDriverCharm
+from src.charm import Cinder{{ cookiecutter.driver_name }}Charm
 from ops.model import ActiveStatus
 from ops.testing import Harness
 

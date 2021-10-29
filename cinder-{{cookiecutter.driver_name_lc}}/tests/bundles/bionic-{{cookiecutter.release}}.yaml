@@ -36,7 +36,7 @@ applications:
     to:
     - '2'
   cinder-{{ cookiecutter.driver_name_lc }}:
-    charm: ../../../cinder-{{ cookiecutter.driver_name_lc }}.charm
+    charm: ../../cinder-{{ cookiecutter.driver_name_lc }}.charm
     options:
 # Add config options here
   rabbitmq-server:

@@ -1,10 +1,10 @@
-name: cinder-{{ cookiecutter.driver_name_lc }}
-summary: {{ cookiecutter.driver_name }} integration for OpenStack Block Storage
+name: cinder-mydriver
+summary: MyDriver integration for OpenStack Block Storage
 maintainer: OpenStack Charmers <openstack-charmers@lists.ubuntu.com>
 description: |
  Cinder is the block storage service for the Openstack project.
  .
- This charm provides a {{ cookiecutter.driver_name }} backend for Cinder
+ This charm provides a MyDriver backend for Cinder
 tags:
   - openstack
   - storage
@@ -22,10 +22,3 @@ requires:
   juju-info:
     interface: juju-info
     scope: container
-{%- if cookiecutter.driver_install_method == 'Juju Resource DEB' %}
-resources:
-  driver-deb:
-    type: file
-    filename: driver.deb
-    description: "Cinder driver deb"
-{%- endif %}

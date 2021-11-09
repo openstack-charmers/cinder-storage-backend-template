@@ -14,32 +14,32 @@ venv/bin/cookiecutter https://github.com/openstack-charmers/cinder-storage-backe
 2) Edit src/config.yaml
 -----------------------
 
-- In the src/config.yaml add any options that should be configurable by the
+- In the file config.yaml add any options that should be configurable by the
   user. In most cases this is details for connecting to the storage array.
   Where appropriate the charm will pass these to the cinder principle charm
   for inclusion in cinder.conf.
 - If the storage driver is to be installed from a ppa then uncomment the
   driver-* options, otherwise delete them.
  
-3) Update 'cinder\_configuration' in src/lib/charm/openstack/cinder_*
+3) Update '\_render\_config' in src/charm.py*
 --------------------------------------------------------------------
 
-The 'cinder\_configuration' method controls configuration options are sent to
-the principle cinder charm for inclusion in cinder.conf. For example:
+The '\_render\_config' method of the charm controls configuration options that
+are sent to the principle cinder charm for inclusion in cinder.conf. For example:
 
 If a 'superarray' driver was being configured in step 3 and
 superarray-username, superarray-password and superarray-hostname config
 options were added to config.yaml and the array needs driver XXX then
 'cinder\_configuration' might look like:
 
-    def cinder_configuration(self):
+    def _render_config(self, config, app_name):
         volume_driver = 'cinder.volume.drivers.ARRAYVENDOR.iscsi.ARRAYISCSIDriver'
-        driver_options = [
+        options = [
             ('volume_driver', volume_driver),
-            ('username', self.config.get('superarray-username')),
-            ('password', self.config.get('superarray-password')),
-            ('hostname', self.config.get('superarray-hostname'))]
-        return driver_options
+            ('username', config.get('superarray-username')),
+            ('password', config.get('superarray-password')),
+            ('hostname', config.get('superarray-hostname'))]
+        # Let the JSON machinery render the above array.
  
 Which will result in the following section being added to cinder.conf:
 
@@ -52,7 +52,7 @@ Which will result in the following section being added to cinder.conf:
 4) Update unit tests
 --------------------
 
-Edit unit\_tests/test\_lib\_charm\_openstack\_cinder\* and update unit
+Edit unit\_tests/test\_cinder\* and update unit
 tests.
 
 5) Update functional tests

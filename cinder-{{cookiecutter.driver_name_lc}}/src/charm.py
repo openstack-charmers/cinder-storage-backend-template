@@ -17,15 +17,17 @@
 
 import json
 
-from ops.charm import CharmBase
+
+from ops_openstack.core import OSBaseCharm
 from ops.framework import StoredState
 from ops.main import main
 from ops.model import ActiveStatus
 
 
-class Cinder{{ cookiecutter.driver_name }}Charm(CharmBase):
+class Cinder{{ cookiecutter.driver_name }}Charm(OSBaseCharm):
 
     _stored = StoredState()
+    PACKAGES = ['{{ cookiecutter.additional_package_name|default("cinder-common", true) }}']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -45,7 +47,7 @@ class Cinder{{ cookiecutter.driver_name }}Charm(CharmBase):
             self._on_storage_backend)
 
     def _on_install(self, _):
-        # If additional packages are to be installed, code should go here.
+        self.install_pkgs()
         self.unit.status = ActiveStatus('Unit is ready')
 
     def _render_config(self, config, app_name):
@@ -74,6 +76,7 @@ class Cinder{{ cookiecutter.driver_name }}Charm(CharmBase):
         app_name = self.framework.model.app.name
         for unit in self.framework.model.get_relation('storage-backend').units:
             self._set_data(rel.data[self.unit], config, app_name)
+        self.unit.status = ActiveStatus('Unit is ready')
 
     def _on_storage_backend(self, event):
         self._set_data(

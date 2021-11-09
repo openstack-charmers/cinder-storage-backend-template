@@ -24,13 +24,17 @@ class TestCinder{{ cookiecutter.driver_name }}Charm(unittest.TestCase):
         self.harness = Harness(Cinder{{ cookiecutter.driver_name }}Charm)
         self.addCleanup(self.harness.cleanup)
         self.harness.begin()
+        self.harness.set_leader(True)
+        backend = self.harness.add_relation('storage-backend', 'cinder')
+        self.harness.update_config({'volume-backend-name': 'test'})
+        self.harness.add_relation_unit(backend, 'cinder/0')
 
     def test_cinder_base(self):
         self.assertEqual(
             self.harness.framework.model.app.name,
             'cinder-{{ cookiecutter.driver_name_lc }}')
         # Test that charm is active upon installation.
-        self.harness.charm.on.install.emit()
+        self.harness.update_config({})
         self.assertTrue(isinstance(
             self.harness.model.unit.status, ActiveStatus))
 

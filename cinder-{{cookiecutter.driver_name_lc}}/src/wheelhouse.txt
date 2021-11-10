@@ -1,2 +1,0 @@
-#layer-basic uses wheelhouse to install python dependencies
-psutil

@@ -58,7 +58,7 @@ class Cinder{{ cookiecutter.driver_name }}Charm(OSBaseCharm):
         ]
         return json.dumps({
             "cinder": {
-                "/etc/cinder/cinder.confg": {
+                "/etc/cinder/cinder.conf": {
                     "sections": {app_name: options}
                 }
             }

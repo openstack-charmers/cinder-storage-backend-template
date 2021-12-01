@@ -15,18 +15,16 @@
 # limitations under the License.
 
 
-import json
-
-
 from ops_openstack.plugins.classes import BaseCinderCharm
-from ops.framework import StoredState
 from ops.main import main
-from ops.model import ActiveStatus
 
 
 class Cinder{{ cookiecutter.driver_name }}Charm(BaseCinderCharm):
 
     PACKAGES = ['{{ cookiecutter.additional_package_name|default("cinder-common", true) }}']
+    # Overriden from the parent. May be set depending on the charm's properties
+    stateless = False
+    active_active = False
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

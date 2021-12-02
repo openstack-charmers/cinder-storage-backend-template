@@ -16,15 +16,16 @@
 
 
 from ops_openstack.plugins.classes import BaseCinderCharm
+from ops_openstack.core import charm_class, get_charm_class_for_release
 from ops.main import main
 
 
-class Cinder{{ cookiecutter.driver_name }}Charm(BaseCinderCharm):
+class CinderCharmBase(BaseCinderCharm):
 
     PACKAGES = ['{{ cookiecutter.additional_package_name|default("cinder-common", true) }}']
     # Overriden from the parent. May be set depending on the charm's properties
-    stateless = False
-    active_active = False
+    stateless = {{ cookiecutter.stateless }}
+    active_active = {{ cookiecutter.active_active }}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -38,5 +39,10 @@ class Cinder{{ cookiecutter.driver_name }}Charm(BaseCinderCharm):
         return options
 
 
+@charm_class
+class Cinder{{ cookiecutter.driver_name }}Charm(CinderCharmBase):
+    release = 'ussuri'
+
+
 if __name__ == '__main__':
-    main(Cinder{{ cookiecutter.driver_name }}Charm)
+    main(get_charm_class_for_release())

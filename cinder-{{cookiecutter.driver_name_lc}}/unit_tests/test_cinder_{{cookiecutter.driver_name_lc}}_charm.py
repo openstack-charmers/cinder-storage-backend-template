@@ -13,7 +13,7 @@
 # limitations under the License.
 
 import unittest
-from src.charm import Cinder{{ cookiecutter.driver_name }}Charm
+from src.charm import CinderCharmBase
 from ops.model import ActiveStatus
 from ops.testing import Harness
 
@@ -21,7 +21,7 @@ from ops.testing import Harness
 class TestCinder{{ cookiecutter.driver_name }}Charm(unittest.TestCase):
 
     def setUp(self):
-        self.harness = Harness(Cinder{{ cookiecutter.driver_name }}Charm)
+        self.harness = Harness(CinderCharmBase)
         self.addCleanup(self.harness.cleanup)
         self.harness.begin()
         self.harness.set_leader(True)

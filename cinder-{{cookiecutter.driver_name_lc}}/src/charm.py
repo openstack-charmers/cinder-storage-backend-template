@@ -15,12 +15,12 @@
 # limitations under the License.
 
 
-from ops_openstack.plugins.classes import BaseCinderCharm
+from ops_openstack.plugins.classes import CinderStoragePluginCharm
 from ops_openstack.core import charm_class, get_charm_class_for_release
 from ops.main import main
 
 
-class CinderCharmBase(BaseCinderCharm):
+class CinderCharmBase(CinderStoragePluginCharm):
 
     PACKAGES = ['{{ cookiecutter.additional_package_name|default("cinder-common", true) }}']
     # Overriden from the parent. May be set depending on the charm's properties

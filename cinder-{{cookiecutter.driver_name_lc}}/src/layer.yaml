@@ -1,6 +1,9 @@
 includes:
   - layer:openstack
   - interface:cinder-backend
+metadata:
+  deletes:
+    - requires.certificates
 config:
   deletes:
     - debug

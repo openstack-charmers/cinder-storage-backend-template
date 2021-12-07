@@ -41,7 +41,7 @@ class CinderCharmBase(CinderStoragePluginCharm):
 
 @charm_class
 class Cinder{{ cookiecutter.driver_name }}Charm(CinderCharmBase):
-    release = 'ussuri'
+    release = '{{ cookiecutter.release }}'
 
 
 if __name__ == '__main__':

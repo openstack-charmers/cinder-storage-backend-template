@@ -32,10 +32,20 @@ class CinderCharmBase(CinderStoragePluginCharm):
 
     def cinder_configuration(self, config):
         # Return the configuration to be set by the principal.
+        backend_name = config.get('volume-backend-name',
+                                  self.framework.model.app.name)
         volume_driver = ''
         options = [
-            ('volume_driver', volume_driver)
+            ('volume_driver', volume_driver),
+            ('volume_backend_name', backend_name),
         ]
+
+        if config.get('use-multipath'):
+            options.extend([
+                ('use_multipath_for_image_xfer', True),
+                ('enforce_multipath_for_image_xfer', True)
+            ])
+
         return options
 
 

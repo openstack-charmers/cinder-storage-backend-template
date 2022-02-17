@@ -1,5 +1,10 @@
 options:
-  volume-dd-blocksize:
-    default: 1024
-    description: Disk block size for the volume
-    type: int
+  volume-backend-name:
+    type: string
+    description: |
+        Volume backend name for the backend. The default value is the
+        application name in the Juju model, e.g. "cinder-mybackend"
+        if it's deployed as `juju deploy cinder-{{cookiecutter.driver_name_lc}} cinder-mybackend`.
+        A common backend name can be set to multiple backends with the
+        same characters so that those can be treated as a single virtual
+        backend associated with a single volume type.

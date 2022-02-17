@@ -11,7 +11,7 @@ tags:
   - file-servers
   - misc
 series:
-  - focal
+  - {{ cookiecutter.ubuntu_release }}
 subordinate: true
 provides:
   storage-backend:

@@ -1,4 +1,4 @@
-series: bionic
+series: {{cookiecutter.ubuntu_release}}
 comment:
 - 'machines section to decide order of deployment. database sooner = faster'
 machines:

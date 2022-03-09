@@ -11,8 +11,7 @@ tags:
   - file-servers
   - misc
 series:
-  - focal
-  - bionic
+  - {{ cookiecutter.ubuntu_release }}
 subordinate: true
 provides:
   storage-backend:

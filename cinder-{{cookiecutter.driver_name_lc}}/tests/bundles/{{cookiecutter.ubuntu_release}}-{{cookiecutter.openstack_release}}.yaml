@@ -1,0 +1,50 @@
+series: {{cookiecutter.ubuntu_release}}
+comment:
+- 'machines section to decide order of deployment. database sooner = faster'
+machines:
+  '0':
+    constraints: mem=3072M
+  '1':
+  '2':
+  '3':
+local_overlay_enabled: false
+
+applications:
+  mysql:
+    charm: ch:percona-cluster
+    channel: latest/edge
+    num_units: 1
+    to:
+    - '0'
+  keystone:
+    charm: ch:keystone
+    channel: yoga/edge
+    num_units: 1
+    options:
+      openstack-origin: cloud:{{cookiecutter.ubuntu_release}}-{{ cookiecutter.openstack_release }}
+    to:
+    - '1'
+  cinder:
+    charm: ch:cinder
+    channel: yoga/edge
+    num_units: 1
+    options:
+      openstack-origin: cloud:{{cookiecutter.ubuntu_release}}-{{ cookiecutter.openstack_release }}
+    to:
+    - '2'
+  cinder-{{ cookiecutter.driver_name_lc }}:
+    charm: ../../cinder-{{ cookiecutter.driver_name_lc }}.charm
+    # options:
+  rabbitmq-server:
+    charm: ch:rabbitmq-server
+    channel: latest/edge
+    num_units: 1
+    to:
+    - '3'
+
+relations:
+- [ keystone:shared-db, mysql:shared-db ]
+- [ cinder:shared-db, mysql:shared-db ]
+- [ cinder:identity-service, keystone:identity-service ]
+- [ cinder:amqp, rabbitmq-server:amqp ]
+- [ cinder:storage-backend, cinder-{{ cookiecutter.driver_name_lc }}:storage-backend ]

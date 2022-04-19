@@ -23,6 +23,7 @@ from ops.main import main
 class CinderCharmBase(CinderStoragePluginCharm):
 
     PACKAGES = ['{{ cookiecutter.additional_package_name|default("cinder-common", true) }}']
+    MANDATORY_CONFIG = ['protocol']
     # Overriden from the parent. May be set depending on the charm's properties
     stateless = {{ cookiecutter.stateless }}
     active_active = {{ cookiecutter.active_active }}

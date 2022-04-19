@@ -1,4 +1,5 @@
 options:
+<<<<<<< HEAD
 {%- if cookiecutter.driver_install_method == 'PPA' %}
   driver-source:
     type: string
@@ -35,3 +36,12 @@ options:
     default:
     description: |
       SAN protocol to use. Choose between iscsi or fc.
+  volume-backend-name:
+    type: string
+    description: |
+        Volume backend name for the backend. The default value is the
+        application name in the Juju model, e.g. "cinder-mybackend"
+        if it's deployed as `juju deploy cinder-{{cookiecutter.driver_name_lc}} cinder-mybackend`.
+        A common backend name can be set to multiple backends with the
+        same characters so that those can be treated as a single virtual
+        backend associated with a single volume type.

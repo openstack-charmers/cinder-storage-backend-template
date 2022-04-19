@@ -1,5 +1,4 @@
 options:
-<<<<<<< HEAD
 {%- if cookiecutter.driver_install_method == 'PPA' %}
   driver-source:
     type: string

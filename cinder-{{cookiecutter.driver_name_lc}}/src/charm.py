@@ -15,40 +15,45 @@
 # limitations under the License.
 
 
-import logging
-
-from ops.main import main
 from ops_openstack.plugins.classes import CinderStoragePluginCharm
+from ops_openstack.core import charm_class, get_charm_class_for_release
+from ops.main import main
 
-logger = logging.getLogger(__name__)
 
+class CinderCharmBase(CinderStoragePluginCharm):
 
-class Cinder{{cookiecutter.driver_name}}Charm(OSBaseCharm):
-
-    PACKAGES = [
-        '{{ cookiecutter.additional_package_name|default("cinder-common", true) }}']
-
-    stateless = False
-    active_active = False
+    PACKAGES = ['{{ cookiecutter.additional_package_name|default("cinder-common", true) }}']
+    MANDATORY_CONFIG = ['protocol']
+    # Overriden from the parent. May be set depending on the charm's properties
+    stateless = {{ cookiecutter.stateless }}
+    active_active = {{ cookiecutter.active_active }}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self._stored.is_started = True
 
-    def cinder_configuration(self, charm_config) -> 'list[tuple]':
-        """Return the configuration to be set by the principal"""
-        cget = charm_config.get
-
-        volume_backend_name = cget(
-            'volume-backend-name') or self.framework.model.app.name
-
-        raw_options = [
-            ('volume_backend_name', volume_backend_name),
+    def cinder_configuration(self, config):
+        # Return the configuration to be set by the principal.
+        backend_name = config.get('volume-backend-name',
+                                  self.framework.model.app.name)
+        volume_driver = ''
+        options = [
+            ('volume_driver', volume_driver),
+            ('volume_backend_name', backend_name),
         ]
 
-        options = [(x, y) for x, y in raw_options if y]
+        if config.get('use-multipath'):
+            options.extend([
+                ('use_multipath_for_image_xfer', True),
+                ('enforce_multipath_for_image_xfer', True)
+            ])
+
         return options
 
 
+@charm_class
+class Cinder{{ cookiecutter.driver_name }}Charm(CinderCharmBase):
+    release = '{{ cookiecutter.release }}'
+
+
 if __name__ == '__main__':
-    main(Cinder{{cookiecutter.driver_name}}Charm)
+    main(get_charm_class_for_release())

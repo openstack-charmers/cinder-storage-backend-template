@@ -1,8 +1,11 @@
 {
     "driver_name": "MyDriver",
     "driver_name_lc": "{{ cookiecutter.driver_name.lower() }}",
+    "release": "ussuri",
     "ubuntu_release": "focal",
     "openstack_release": "ussuri",
     "additional_package_name": "",
-    "driver_install_method": ["None", "PPA", "Juju Resource DEB"]
+    "driver_install_method": ["None", "PPA", "Juju Resource DEB"],
+    "stateless": [true, false],
+    "active_active": [true, false]
 }

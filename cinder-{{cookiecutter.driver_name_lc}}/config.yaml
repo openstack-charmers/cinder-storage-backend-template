@@ -1,4 +1,34 @@
 options:
+{%- if cookiecutter.driver_install_method == 'PPA' %}
+  driver-source:
+    type: string
+    default:
+    description: |
+      Optional configuration to support use of additional sources such as:
+        - ppa:myteam/ppa
+        - cloud:trusty-proposed/kilo
+        - http://my.archive.com/ubuntu main
+      The last option should be used in conjunction with the key configuration
+      option.
+  driver-key:
+    type: string
+    default:
+    description: |
+      Key ID to import to the apt keyring to support use with arbitary source
+      configuration from outside of Launchpad archives or PPA's.
+{%- endif %}
+  use-multipath:
+    type: boolean
+    default: True
+    description: |
+      Whether to use a multipath connection for iSCSI or FC in Cinder
+      volume service. Enabling multipath for VMs is managed by the
+      "use-multipath" option in the nova-compute charm.
+  protocol:
+    type: string
+    default:
+    description: |
+      SAN protocol to use. Choose between iscsi or fc.
   volume-backend-name:
     type: string
     description: |

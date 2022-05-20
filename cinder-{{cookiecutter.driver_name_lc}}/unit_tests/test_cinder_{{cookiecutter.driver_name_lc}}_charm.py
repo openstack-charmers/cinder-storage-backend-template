@@ -13,7 +13,7 @@
 # limitations under the License.
 
 import unittest
-from src.charm import Cinder{{ cookiecutter.driver_name }}Charm
+from src.charm import CinderCharmBase
 from ops.model import ActiveStatus
 from ops.testing import Harness
 
@@ -21,7 +21,7 @@ from ops.testing import Harness
 class TestCinder{{ cookiecutter.driver_name }}Charm(unittest.TestCase):
 
     def setUp(self):
-        self.harness = Harness(Cinder{{ cookiecutter.driver_name }}Charm)
+        self.harness = Harness(CinderCharmBase)
         self.addCleanup(self.harness.cleanup)
         self.harness.begin()
         self.harness.set_leader(True)
@@ -37,6 +37,14 @@ class TestCinder{{ cookiecutter.driver_name }}Charm(unittest.TestCase):
         self.harness.update_config({})
         self.assertTrue(isinstance(
             self.harness.model.unit.status, ActiveStatus))
+
+    def test_multipath_config(self):
+        self.harness.update_config({'use-multipath': True})
+        conf = dict(self.harness.charm.cinder_configuration(
+            dict(self.harness.model.config)))
+        self.assertEqual(conf['volume_backend_name'], 'test')
+        self.assertTrue(conf.get('use_multipath_for_image_xfer'))
+        self.assertTrue(conf.get('enforce_multipath_for_image_xfer'))
 
     def test_cinder_configuration(self):
         # Add check here that configuration is as expected.
